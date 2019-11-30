@@ -1,0 +1,80 @@
+import time
+import json
+from collections import Counter
+num_to_string = {
+	1: "January",
+	2: "February",
+	3: "March",
+	4: "April",
+	5: "May",
+	6: "June",
+	7: "July",
+	8: "August",
+	9: "September",
+	10: "October",
+	11: "November",
+	12: "December"
+}
+
+months = []
+
+birthdays_dictionary = {}
+
+"""with open("birthdays.json","w") as f:
+    json.dump(birthdays_dictionary,f)"""
+
+with open("birthdays.json","r") as f:
+    birthdays_dictionary = json.load(f)
+
+def add_in_dic():
+    n = input("please input the name you want to dump into database: ")
+    d = input("please input the date you want to add for person: ")
+    print("processing...")
+    for i in range(1, 4):
+        print(i)
+        time.sleep(0.5)
+    birthdays_dictionary[n] = d
+    print('{} was added to my birthday list\n'.format(n))
+    with open("birthdays.json", "w") as f:
+        json.dump(birthdays_dictionary,f)
+
+def look_up_in_dic():
+    print("you can see below the birthdays we have!")
+    for i in birthdays_dictionary:
+        print(i)
+        time.sleep(0.5)
+    a = input("whose birthday you want to know?: ")
+    print("processing...")
+    for i in range(1, 4):
+        print(i)
+        time.sleep(0.6)
+    if a in birthdays_dictionary:
+        print(a + "'s birthday is " + birthdays_dictionary[a] + "!")
+    else:
+        print("sorry please try again...")
+def interface():
+    choose = input("hello. do you want to add one or look up for birthdays?: (A/L)").capitalize()
+    if choose  == "A":
+        add_in_dic()
+        con1 = input("do you wish to continue?: (Y/N)").capitalize()
+        if con1 == "Y":
+            interface()
+        elif con1 == "N":
+            print("cya!")
+    elif choose == "L":
+        look_up_in_dic()
+        con2 = input("do you wish to continue?: (Y/N)").capitalize()
+        if con2 == "Y":
+            interface()
+        elif con2 == "N":
+            print("cya!")
+    else:
+        print("please try again...")
+        interface()
+interface()
+
+for n, birthday_string in birthdays_dictionary.items():
+	month = int(birthday_string.split("/")[0])
+	months.append(num_to_string[month])
+
+print(Counter(months))
